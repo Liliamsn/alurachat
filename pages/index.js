@@ -1,39 +1,7 @@
+import React from 'react';
+import { useRouter } from 'next/router'
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import appConfig from "../config.json";
-
-function GlobalStyle() {
-    return (
-        <style global jsx>{`
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            list-style: none;
-        }
-
-        body {
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        /* App fit Height */ 
-        html, body, #__next {
-            min-height: 100vh;
-            display: flex;
-            flex: 1;
-        }
-
-        #__next {
-            flex: 1;
-        }
-
-        #__next > * {
-            flex: 1;
-        }
-
-        /* ./App fit Height */ 
-        `}</style>
-    )
-}
 
 
 function Titulo(props) {
@@ -73,12 +41,18 @@ function Titulo(props) {
 //   export default HomePage
 
 
-export default function PaginaInicial() {
-    const username = 'peas';
+export default function PaginaInicial(props) {
+    // const username = 'Liliamsn';
+
+    
+    const [username, setUsername] = React.useState('');
+    
+
+    //Criando a constante da rota
+    const roteamento = useRouter();
 
     return (
         <>
-            <GlobalStyle />
             <Box
                 styleSheet={{
                     display: 'flex', 
@@ -112,6 +86,16 @@ export default function PaginaInicial() {
                     {/* Formulário */}
                     <Box
                         as="form"
+                        onSubmit={(evento)=> {
+                            evento.preventDefault();
+
+                            //Criando a rota sem o reload
+                            roteamento.push(`/chat?username=${username}`);
+
+                            //Forma antiga de direcionar uma página
+                            // window.location.href = '/chat'
+                        }}
+
                         styleSheet={{
                             display: 'flex', 
                             flexDirection: 'column', 
@@ -134,8 +118,24 @@ export default function PaginaInicial() {
                             }}>
                             {appConfig.name}
                         </Text>
-
+                        
                         <TextField
+                            // value={username}
+                            onChange={(evento)=> {
+                                //Onde está o valor?
+                                const valor = evento.target.value;
+                                
+                                //Trocar o valor da variável
+                                if(valor.length > 2) {
+
+                                    setUsername(valor)
+                                } else {
+
+                                    setUsername('')
+                                }
+
+                                
+                            }}
                             fullWidth
                             textFieldColors={{
                                 neutral: {
@@ -183,18 +183,20 @@ export default function PaginaInicial() {
                                 borderRadius: '50%',
                                 marginBottom: '16px',
                             }}
+                            
                             src={`https://github.com/${username}.png`}
                         />
+
                         <Text
-                            variant="body4"
-                            styleSheet={{
-                                color: appConfig.theme.colors.neutrals[200],
-                                backgroundColor: appConfig.theme.colors.neutrals[1040],
-                                padding: '3px 10px',
-                                borderRadius: '1000px'
-                            }}
+                            // variant="body4"
+                            // styleSheet={{
+                            //     color: appConfig.theme.colors.neutrals[200],
+                            //     backgroundColor: appConfig.theme.colors.neutrals[1040],
+                            //     padding: '3px 10px',
+                            //     borderRadius: '1000px'
+                            // }}
                         >
-                            {username}
+                            {/* {username} */}
                         </Text>
                     </Box>
                     {/* Photo Area */}

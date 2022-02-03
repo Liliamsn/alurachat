@@ -28,7 +28,8 @@ export default function Conteudo() {
                 
                 <Link href='/'>
                     <a>
-                    Home
+                        Home
+
                     </a>
                 </Link>
             </Box>
